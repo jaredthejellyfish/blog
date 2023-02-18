@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![wakatime](https://wakatime.com/badge/user/61cabc84-7492-4f6a-b301-5bbbdd324bc5/project/15e94510-91b1-4f67-854c-f65a670d6105.svg)](https://wakatime.com/badge/user/61cabc84-7492-4f6a-b301-5bbbdd324bc5/project/15e94510-91b1-4f67-854c-f65a670d6105)
 
 ## Getting Started
 
