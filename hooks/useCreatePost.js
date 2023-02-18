@@ -3,18 +3,18 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useAuth } from "@/context/UserContext";
-import slugify from 'react-slugify';
+import slugify from "react-slugify";
 
 export default function useCreatePost() {
   const router = useRouter();
-  const { isAuth, user, isLoading } = useAuth();
+  const { isAuth, user } = useAuth();
 
-  async function post({ text, title, summary, category, tags }) {
+  async function post({ content, title, summary, category, tags }) {
     if (!isAuth) return;
 
     const data = {
-      owner: user.id,
-      text: text,
+      poster: user.id,
+      content: content,
       title: title,
       summary: summary,
       category: category,
@@ -22,16 +22,36 @@ export default function useCreatePost() {
       slug: slugify(title),
     };
 
-    const record = await pb.collection("posts").create(data);
+    console.log(data)
 
-    if (record?.owner == user.id) {
-      router.push("/");
-      toast.success(`Your post was uploaded! 🎉`);
-    } else {
-      toast.error("There was an error creating your post.", {
-        position: "top-right",
-      });
+    try {
+      const foundRecord = await pb
+        .collection("posts")
+        .getFirstListItem(`slug="${data.slug}"`);
+
+      if (foundRecord) {
+        toast.error("A post with that title already exists.", {
+          position: "top-right",
+        });
+        return;
+      }
+    } catch {
+      const record = await pb.collection("posts").create(data);
+
+      if (record?.poster == user.id) {
+        router.prefetch(`/posts/${record.slug}`);
+        toast.success(`Your post was uploaded! 🎉`);
+        router.push(`/posts/${record.slug}`);
+      } else {
+        toast.error("There was an error creating your post.", {
+          position: "top-right",
+        });
+      }
     }
   }
-  return useMutation(post);
+  return useMutation((payload) => post(payload), {
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 }

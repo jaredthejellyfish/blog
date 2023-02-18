@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import styles from "@/styles/components/Navbar.module.scss";
-import Image from "next/image";
+
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
-import mediumLogo from "@/public/medium.png";
-import Link from "next/link";
-import { useAuth } from "@/context/UserContext";
-import Avatar from "react-avatar";
 
-import pb from "@/lib/pocketbase";
+import mediumLogo from "@/public/medium.png";
+import pfp from "@/public/pfp.webp";
+import Image from "next/image";
+import Link from "next/link";
+
+import { useAuth } from "@/context/UserContext";
+import useLogout from "@/hooks/useLogout";
+
+import isImage from "@/lib/isImage";
 
 const Navbar = () => {
   const [searchText, setSearchText] = useState("");
 
-  const { isAuth, user, isLoading } = useAuth();
+  const { isAuth, user, isLoading, isError } = useAuth();
+  const logout = useLogout();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,41 +59,41 @@ const Navbar = () => {
         </div>
 
         <div className={styles.right}>
-          <div className={styles.login_wrapper}>
-            {!isLoading && isAuth ? (
-              <>
-                <Link href="/posts/create">
-                  <div className={styles.write_wrapper}>
-                    <FiEdit size={18} />
-                    <p>Write</p>
-                  </div>
-                </Link>
-
-                <div className={styles.pfp_wrapper}>
-                  <Avatar
-                    src={user.avatar ? user.avatar : null}
-                    name={user.username}
-                    round
-                    size={32}
-                    onClick={() => {
-                      pb.authStore.clear();
-                    }}
-                  />
-                  <MdKeyboardArrowDown className={styles.pfp_arrow} />
+          {!isLoading && !isError && isAuth && user ? (
+            <div className={styles.functions_wrapper}>
+              <Link href="/posts/create">
+                <div className={styles.write_wrapper}>
+                  <FiEdit size={18} />
+                  <p className={styles.write_text}>Write</p>
                 </div>
-              </>
-            ) : (
-              <>
-                <Link href="/auth/login" className={styles.login_button}>
-                  Login
-                </Link>
+              </Link>
 
-                <Link href="/auth/register" className={styles.signup_button}>
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
+              <div className={styles.pfp_wrapper}>
+                <Image
+                  src={isImage(user.avatarURL) ? user.avatarURL : pfp}
+                  className={styles.pfp}
+                  alt={user.username}
+                  width={32}
+                  height={32}
+                  onClick={() => {
+                    console.log("logged out");
+                    logout();
+                  }}
+                />
+                <MdKeyboardArrowDown className={styles.pfp_arrow} />
+              </div>
+            </div>
+          ) : (
+            <div className={styles.login_wrapper}>
+              <Link href="/auth/login" className={styles.login_button}>
+                Login
+              </Link>
+
+              <Link href="/auth/register" className={styles.signup_button}>
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

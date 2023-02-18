@@ -3,10 +3,17 @@ import { useForm } from "react-hook-form";
 import useLogin from "@/hooks/useLogin";
 import styles from "@/styles/pages/Login.module.scss";
 import { toast } from "react-toastify";
+import pb from "@/lib/pocketbase";
+import { useRouter } from "next/router";
 
 const Login = () => {
   // const { mutate: registerUser, isLoading, isError } = useRegister();
   const { mutate: login, isLoading, isError } = useLogin();
+  const router = useRouter();
+
+  if (pb.authStore.isValid) {
+    router.push("/");
+  }
 
   const {
     register,

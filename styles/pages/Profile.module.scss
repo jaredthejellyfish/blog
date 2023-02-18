@@ -1,0 +1,17 @@
+@import '../variables';
+
+.wrapper {
+  width: 100%;
+  height: calc(80vh - $nav-height - 10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+.profile_section {
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  border-radius: 15px;
+}

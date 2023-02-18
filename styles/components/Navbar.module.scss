@@ -25,7 +25,7 @@
 .logo {
   height: 25px;
   width: 161px;
-  margin-right: 30px;
+  margin-right: 38px;
   min-width: 160px;
 }
 
@@ -94,6 +94,14 @@
   align-items: center;
 }
 
+.functions_wrapper {
+  height: 50px;
+  width: 140px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .login_wrapper > a {
   padding: 8px 16px;
   color: $accent-color;
@@ -125,11 +133,12 @@
   }
 }
 
-.profile_picture {
-  height: 10px;
-  width: 10px;
+.pfp {
   border-radius: 50%;
-  cursor: pointer;
+  transform: scale(1.05);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
 }
 
 .pfp_wrapper {
@@ -139,14 +148,14 @@
   align-items: center;
   gap: 0;
   height: 100%;
-  width: 100%;
+  width: 50px;
   cursor: pointer;
 }
 
 .pfp_arrow {
   font-size: 15px;
   transform: scaleX(1.04);
-  margin-left: 3px;
+  padding: 0;
   color: rgba(23, 23, 23, 0.8);
 }
 
@@ -159,11 +168,13 @@
   width: 100%;
   cursor: pointer;
   margin-right: 5px;
-
+  &:hover {
+    transform: scale(1.015);
+  }
+  transition: 0.2s ease;
 }
 
-.write_wrapper > p {
-  display: block;
+.write_text {
   font-size: 14px;
   font-weight: 500;
   color: $accent-color;
@@ -215,7 +226,39 @@
     display: none;
   }
 
+  .write_text {
+    opacity: 0;
+    width: 0;
+    margin: 0;
+  }
+
+  .write_wrapper {
+    margin-right: 0;
+  }
+
   .wrapper {
     grid-template-columns: 50% 50%;
+  }
+  .functions_wrapper {
+    width: auto;
+    gap: 30px;
+  }
+
+  .navbar_right {
+    padding-right: 0px;
+  }
+
+  .right {
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 435px) {
+  .right {
+    padding-right: 38%;
+  }
+
+  .left {
+    padding-left: 10px;
   }
 }

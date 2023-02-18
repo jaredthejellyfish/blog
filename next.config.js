@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const nextConfig = {};
 
-module.exports = nextConfig
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "blogbase.jellyhost.eu",
+      },
+    ],
+  },
+};

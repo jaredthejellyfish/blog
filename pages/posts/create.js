@@ -1,42 +1,85 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import MarkdownIt from "markdown-it";
+import Editor, { Plugins } from "react-markdown-editor-lite";
+// import style manually
+import "react-markdown-editor-lite/lib/index.css";
+import styles from "@/styles/pages/CreatePost.module.scss";
 import useCreatePost from "@/hooks/useCreatePost";
-import styles from "@/styles/pages/Login.module.scss";
-import { toast } from "react-toastify";
+
+const plugins = [
+  "header",
+  "font-bold",
+  "font-italic",
+  "font-underline",
+  "font-strikethrough",
+  "list-unordered",
+  "list-ordered",
+  "block-quote",
+  "block-wrap",
+  "block-code-inline",
+  "block-code-block",
+  "table",
+  "image",
+  "link",
+  "clear",
+  "logger",
+  "mode-toggle",
+  "full-screen",
+  "tab-insert",
+];
+
+const v1 = {
+  menu: true,
+  md: true,
+  html: true,
+  fullScreen: true,
+  hideMenu: true,
+};
 
 const CreatePost = () => {
-  // const { mutate: registerUser, isLoading, isError } = useRegister();
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
   const { mutate: post, isLoading, isError } = useCreatePost();
 
+  const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    console.log("hi")
-    post({title: "hi1", text: "hi", summary: "small hi", category: "stonks", tags: ""});
+  const onSubmit = () => {
+    post({
+      title: title,
+      content: content,
+      summary: "small hi",
+      category: "stonks",
+      tags: {},
+    });
   };
 
-  useEffect(() => {
-    if (isError && !isLoading) {
-      toast.error("There was an error creating your post.", {
-        position: "top-right",
-      });
-    }
-  }, [isLoading, isError]);
+  function handleEditorChange({ text }) {
+    setContent(text);
+  }
 
   return (
     <div className={styles.wrapper}>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit(onSubmit)}
-        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-      >
-        <button type="submit">{isLoading ? "Loading..." : "Login"}</button>
-      </form>
+      <div className={styles.heading}>
+        <input
+          placeholder="Title..."
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+        />
+      </div>
+      <Editor
+        className={styles.editor}
+        plugins={plugins}
+        markdownClass={styles.markdown}
+        placeholder="Write your post here..."
+        view={{ html: false }}
+        renderHTML={(text) => mdParser.render(text)}
+        onChange={handleEditorChange}
+      />
+      <div className={styles.submit_section}>
+        <button className={styles.submit} onClick={onSubmit}>
+          Post
+        </button>
+      </div>
     </div>
   );
 };

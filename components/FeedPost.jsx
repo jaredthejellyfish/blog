@@ -26,7 +26,7 @@ const HomePost = (props) => {
       }
     >
       {props.image ? (
-        <Image src={cover_image} className={styles.image} alt="" />
+        <Image priority src={cover_image} className={styles.image} alt="" />
       ) : null}
 
       <div className={styles.content}>

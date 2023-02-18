@@ -13,8 +13,8 @@ const Tag = (props) => {
     var backgroundColor = Color(color).darken(0.2);
   }
 
-  const borderColor = Color(backgroundColor).darken(0.2).hex();
-  const textColor = Color(backgroundColor).darken(0.6).hex();
+  const borderColor = Color(backgroundColor).darken(0.5).hex();
+  const textColor = Color(backgroundColor).darken(0.7).hex();
 
   return (
     <div

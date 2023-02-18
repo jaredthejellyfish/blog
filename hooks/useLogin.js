@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 export default function useLogin() {
 
-
   const router = useRouter();
 
   async function login({ email, password }) {
@@ -15,7 +14,7 @@ export default function useLogin() {
 
     if (pb.authStore.isValid) {
       router.push("/");
-      toast.success(`Nice to see you ${pb.authStore?.model?.username}! 🎉`);
+      toast(`Nice to see you ${pb.authStore?.model?.username}!‎ ‎ 🎉`);
     } else {
       toast.error("There was an error logging in.");
     }

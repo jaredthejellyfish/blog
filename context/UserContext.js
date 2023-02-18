@@ -1,14 +1,15 @@
 import pb from "@/lib/pocketbase";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const userInitialState = {
-  email: "",
-  id: "",
-  username: "",
-  verified: false,
-  avatar_url: ""
+  avatarURL: null,
+  bio: null,
+  created: null,
+  email: null,
+  id: null,
+  username: null,
+  verified: null,
 };
-
-import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -16,22 +17,36 @@ const usePocketbaseAuth = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(userInitialState);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
+    const getProfile = async () => {
+      const record = await pb.collection("users").getOne(pb.authStore.model.id);
+      return record;
+    };
+
     const checkAuth = async () => {
       if (typeof pb !== "undefined" && typeof pb.authStore !== "undefined") {
         const isValid = pb.authStore.isValid;
         setIsAuth(isValid);
 
         if (isValid) {
+          getProfile().then((record) => {
             setUser({
-              id: pb.authStore.model.id,
-              email: pb.authStore.model.email,
-              username: pb.authStore.model.username,
-              verified: pb.authStore.model.verified,
+              avatarURL: pb.getFileUrl(record, record.avatar),
+              bio: record.bio,
+              created: record.created,
+              email: record.email,
+              id: record.id,
+              username: record.username,
+              verified: record.verified,
             });
-            setIsLoading(false);
-
+            setError(false);
+          }).catch((e) => {
+            console.log(e);
+            setError(true);
+          });
+          setIsLoading(false);
         }
       }
     };
@@ -45,14 +60,14 @@ const usePocketbaseAuth = () => {
     return () => removeListener();
   }, []);
 
-  return { isAuth, user };
+  return { isAuth, user, isLoading, isError };
 };
 
 const AuthProvider = ({ children }) => {
-  const { isAuth, user, isLoading } = usePocketbaseAuth();
+  const { isAuth, user, isLoading, isError } = usePocketbaseAuth();
 
   return (
-    <AuthContext.Provider value={{ isAuth, user, isLoading }}>
+    <AuthContext.Provider value={{ isAuth, user, isLoading, isError }}>
       {children}
     </AuthContext.Provider>
   );
