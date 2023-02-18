@@ -1,0 +1,221 @@
+@import "./../variables.scss";
+
+.wrapper {
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: $nav-height;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background-color: $nav-background-color;
+  border-bottom: 1px solid $nav-border-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: $nav-initial-padding;
+}
+
+.logo {
+  height: 25px;
+  width: 161px;
+  margin-right: 30px;
+  min-width: 160px;
+}
+
+.search_form {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  align-items: center;
+  border: 1.5px solid #e0e0e0;
+  height: 40px;
+  margin-right: 30px;
+  font-size: 16px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 5px;
+  max-width: $nav-search-max-width;
+}
+
+.search_form > input {
+  height: 24px;
+  border: unset;
+  padding: 6px 8px;
+  color: $accent-color;
+  background-color: unset;
+  outline: unset;
+  font-size: 16px;
+  width: 100%;
+}
+
+.search_button {
+  border: unset;
+  height: 100%;
+  padding: 6px 8px;
+  background-color: unset;
+  color: black;
+  outline: unset;
+  font-size: 20px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  color: $text-color;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    scale: 1.02;
+    background-color: #efeeee;
+  }
+  &::placeholder {
+    color: $text-color;
+  }
+  transition: 0.2s ease;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: $nav-initial-padding;
+}
+
+.login_wrapper {
+  height: 50px;
+  width: 210px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.login_wrapper > a {
+  padding: 8px 16px;
+  color: $accent-color;
+  font-size: 18px;
+  background-color: transparent;
+  border-radius: 5px;
+  font-weight: 500;
+  min-height: 37.5px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.login_button {
+  border: 1.5px solid rgba(23, 23, 23, 0);
+  &:hover {
+    border: 1.5px solid rgba(23, 23, 23, 0.05);
+    background-color: rgba(23, 23, 23, 0.6);
+    color: white;
+    text-decoration: underline;
+  }
+}
+
+.signup_button {
+  border: 1.5px solid rgba(23, 23, 23, 0.5);
+  &:hover {
+    background-color: $accent-color;
+    color: white;
+    text-decoration: underline;
+  }
+}
+
+.profile_picture {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.pfp_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.pfp_arrow {
+  font-size: 15px;
+  transform: scaleX(1.04);
+  margin-left: 3px;
+  color: rgba(23, 23, 23, 0.8);
+}
+
+.write_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  margin-right: 5px;
+
+}
+
+.write_wrapper > p {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: $accent-color;
+  margin: 0;
+  margin-left: 5px;
+  margin-right: 10px;
+  position: relative;
+  top: 0.07em;
+}
+
+.write_wrapper > svg {
+  display: inline;
+}
+
+@media screen and (max-width: 1350px) {
+  .left {
+    padding-left: 30px;
+  }
+  .right {
+    padding-right: 30px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .wrapper {
+    grid-template-columns: 70% 30%;
+  }
+
+  .left {
+    justify-content: flex-start;
+  }
+
+  .left > svg {
+    margin-right: 30px;
+  }
+
+  .center {
+    display: none;
+  }
+
+  .right {
+    padding-right: 30px;
+    min-width: 250px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .search_form {
+    display: none;
+  }
+
+  .wrapper {
+    grid-template-columns: 50% 50%;
+  }
+}

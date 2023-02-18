@@ -1,0 +1,49 @@
+@import "./../variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: $side-section-min-width;
+  height: 1000px;
+  padding-top: 10px;
+  padding-left: 125px;
+  font-size: 16px;
+  color: rgb(64, 64, 64);
+  margin-left: 20px;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(23, 23, 23, 0.1);
+    border: 1px solid rgba(23, 23, 23, 0.1);
+    padding: 9px;
+  }
+}
+
+.selected {
+  background-color: rgba(23, 23, 23, 0.1);
+  border: 1px solid rgba(23, 23, 23, 0.1);
+  padding: 9px;
+}
+
+@media screen and (max-width: 1150px) {
+  .wrapper {
+    min-width: calc($side-section-min-width / 2);
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 648px) {
+  .wrapper {
+    display: none;
+  }
+}

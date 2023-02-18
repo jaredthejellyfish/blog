@@ -1,0 +1,108 @@
+@import "./../variables.scss";
+
+.wrapper {
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #cdcdcd;
+  max-width: 650px;
+}
+
+.image {
+  width: 100%;
+  object-fit: cover;
+  height: 50%;
+  display: block;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 10px;
+}
+
+.profile_section {
+  max-width: 650px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.profile {
+  width: 35px;
+  height: 35px;
+  margin: 5px 0 0 15px;
+  border-radius: 50%;
+  display: block;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  display: block;
+}
+
+.profile_info {
+  width: 100%;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.date {
+  font-weight: 500;
+  color: #949494;
+}
+
+.post_section {
+  display: flex;
+  max-width: 650px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 70px;
+}
+
+.title {
+  align-self: flex-start;
+  margin-bottom: 10px;
+  width: 80%;
+  font-size: 23px;
+}
+
+.description {
+  align-self: flex-start;
+  width: 80%;
+}
+
+.tags_section {
+  margin-left: 70px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 70%;
+}
+
+@media screen and (max-width: 648px) {
+  .wrapper {
+    width: 100vw;
+    border-radius: unset;
+    border-left: unset;
+    border-right: unset;
+    max-width: unset;
+  }
+  .image {
+    border-radius: unset;
+  }
+
+  .tags_section {
+    flex-wrap: wrap;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+  .image {
+    height: 45%;
+  }
+  .wrapper {
+    padding: 0 0 10px;
+  }
+}

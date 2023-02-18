@@ -9,11 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.2.1",
     "@next/font": "13.1.6",
+    "@tanstack/react-query": "^4.24.6",
+    "@tanstack/react-query-devtools": "^4.24.6",
+    "color": "^4.2.3",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "next": "13.1.6",
+    "pocketbase": "^0.10.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-avatar": "^5.0.3",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.1",
+    "react-icons": "^4.7.1",
+    "react-slugify": "^3.0.2",
+    "react-toastify": "^9.1.1",
+    "sass": "^1.58.1"
   }
 }
