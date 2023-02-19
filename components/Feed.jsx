@@ -3,7 +3,7 @@ import styles from "@/styles/components/Feed.module.scss";
 import FeedPost from "@/components/FeedPost";
 import pb from "@/lib/pocketbase";
 
-import Link from "next/link";
+
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,6 +24,8 @@ const Box = (props) => {
     const pageNum = 1;
     const perPage = 5;
 
+    console.log("fetching feed")
+
     const record = await pb.collection("posts").getList(pageNum, perPage, {
       expand: "poster",
       sort: filter,
@@ -36,6 +38,7 @@ const Box = (props) => {
     data: record,
     isLoading,
     isError,
+    error
   } = useQuery(["feed", type, category], fetchPosts, {
     enabled: !!type && !!category,
   });

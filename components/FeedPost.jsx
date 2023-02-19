@@ -11,7 +11,7 @@ const HomePost = (props) => {
   const { tags } = props;
 
   const imageUrl = pb.getFileUrl(props.record, props.image);
-  const avatarUrl = null;
+  const avatarUrl = pb.getFileUrl(props.record.expand.poster, props.record.expand.poster.avatar);
 
   return (
     <div
