@@ -4,11 +4,11 @@
   background-color: white;
   border-radius: 8px;
   border: 1px solid #cdcdcd;
-  max-width: 650px;
-
+  width: 100%;
   -webkit-box-shadow: 0px 0px 21px -1px rgba(0, 0, 0, 0.01);
   -moz-box-shadow: 0px 0px 21px -1px rgba(0, 0, 0, 0.01);
   box-shadow: 0px 0px 21px -1px rgba(0, 0, 0, 0.01);
+  cursor: pointer;
 }
 
 .image {
@@ -31,8 +31,8 @@
 }
 
 .profile {
-  width: 35px;
-  height: 35px;
+
+
   margin: 5px 0 0 15px;
   border-radius: 50%;
   display: block;
@@ -67,7 +67,7 @@
   align-self: flex-start;
   margin-bottom: 10px;
   width: 90%;
-  font-size: 23px;
+  font-size: 21px;
 }
 
 .description {
@@ -94,7 +94,6 @@
     border-radius: unset;
     border-left: unset;
     border-right: unset;
-    max-width: unset;
   }
   .image {
     border-radius: unset;

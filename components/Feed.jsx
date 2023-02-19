@@ -1,11 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "@/styles/components/Feed.module.scss";
 import FeedPost from "@/components/FeedPost";
-import posts from "@/samples/sample_feeds";
+import pb from "@/lib/pocketbase";
+
+import Link from "next/link";
+
+import { useQuery } from "@tanstack/react-query";
 
 const Box = (props) => {
   const [type, setType] = useState("relevant");
   const [category, setCategory] = useState(null);
+  const [filter, setFilter] = useState("-created");
 
   const relevantRef = useRef(null);
   const latestRef = useRef(null);
@@ -15,23 +20,46 @@ const Box = (props) => {
     setCategory(props.category);
   }, [props.category]);
 
+  const fetchPosts = async () => {
+    const pageNum = 1;
+    const perPage = 5;
+
+    const record = await pb.collection("posts").getList(pageNum, perPage, {
+      expand: "poster",
+      sort: filter,
+    });
+
+    return record;
+  };
+
+  const {
+    data: record,
+    isLoading,
+    isError,
+  } = useQuery(["feed", type, category], fetchPosts, {
+    enabled: !!type && !!category,
+  });
+
   useEffect(() => {
     if (type === "relevant") {
       relevantRef.current.classList.add(styles.selected);
       latestRef.current.classList.remove(styles.selected);
       topRef.current.classList.remove(styles.selected);
+      setFilter("-likes");
     }
     if (type === "latest") {
       relevantRef.current.classList.remove(styles.selected);
       latestRef.current.classList.add(styles.selected);
       topRef.current.classList.remove(styles.selected);
+      setFilter("-created");
     }
     if (type === "top") {
       relevantRef.current.classList.remove(styles.selected);
       latestRef.current.classList.remove(styles.selected);
       topRef.current.classList.add(styles.selected);
+      setFilter("-likes");
     }
-  }, [type]);
+  }, [type, category]);
 
   const handleContentSelector = (e) => {
     if (e.target.tagName === "P") {
@@ -42,7 +70,7 @@ const Box = (props) => {
   };
 
   return (
-    <div className={styles.container_box}>
+    <div className={styles.container_box} key="feed">
       <div className={styles.content_selector}>
         <div
           ref={relevantRef}
@@ -70,16 +98,19 @@ const Box = (props) => {
         </div>
       </div>
 
-      {posts[category] ? (
-        posts[category].map((post, index) => (
+      {record && !isLoading && !isError ? (
+        record.items.map((post, index) => (
           <FeedPost
-            image={post.image}
-            user={post.user}
-            date={post.date}
+            image={post.cover_image}
+            userAvatar={post.expand?.poster?.avatar}
+            user={post.expand?.poster?.username}
+            date={post.created}
             title={post.title}
-            description={post.description}
-            key={index}
+            description={post.summary}
+            slug={post.slug}
+            key={"post " + index}
             tags={post.tags}
+            record={post}
           />
         ))
       ) : (
@@ -87,7 +118,6 @@ const Box = (props) => {
           <p>No {category} yet...</p>
         </div>
       )}
-
     </div>
   );
 };

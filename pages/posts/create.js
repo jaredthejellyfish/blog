@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import MarkdownIt from "markdown-it";
-import Editor, { Plugins } from "react-markdown-editor-lite";
-// import style manually
+import Editor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import styles from "@/styles/pages/CreatePost.module.scss";
 import useCreatePost from "@/hooks/useCreatePost";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
+import MDDisplay from "@/components/MDDisplay";
 
 const plugins = [
   "header",
@@ -41,8 +44,6 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const { mutate: post, isLoading } = useCreatePost();
 
-  const mdParser = new MarkdownIt(/* Markdown-it options */);
-
   const onSubmit = () => {
     post({
       title: title,
@@ -72,7 +73,9 @@ const CreatePost = () => {
         markdownClass={styles.markdown}
         placeholder="Write your post here..."
         view={{ html: false }}
-        renderHTML={(text) => mdParser.render(text)}
+        renderHTML={(text) => (
+          <MDDisplay content={text} />
+        )}
         onChange={handleEditorChange}
       />
       <div className={styles.submit_section}>
