@@ -43,7 +43,6 @@ const usePocketbaseAuth = () => {
             });
             setError(false);
           }).catch((e) => {
-            console.log(e);
             setError(true);
           });
           setIsLoading(false);

@@ -76,7 +76,6 @@ const Navbar = () => {
                   width={32}
                   height={32}
                   onClick={() => {
-                    console.log("logged out");
                     logout();
                   }}
                 />

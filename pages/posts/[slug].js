@@ -9,7 +9,6 @@ const Post = () => {
 
   const router = useRouter();
   const { slug: userParam } = router.query;
-  console.log(userParam);
 
   useEffect(() => {
     if (userParam) {
@@ -25,8 +24,6 @@ const Post = () => {
         })
         .catch((e) => {
           setError(true);
-
-          console.log("posts", e);
         });
       setLoading(false);
     }

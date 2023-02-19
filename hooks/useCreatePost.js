@@ -22,8 +22,6 @@ export default function useCreatePost() {
       slug: slugify(title),
     };
 
-    console.log(data);
-
     try {
       await pb
         .collection("posts")
@@ -59,9 +57,5 @@ export default function useCreatePost() {
         });
     }
   }
-  return useMutation((payload) => post(payload), {
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  return useMutation((payload) => post(payload));
 }
