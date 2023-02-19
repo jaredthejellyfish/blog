@@ -20,7 +20,7 @@ export default function useUsernameProfile(user) {
     const fetchByUser = async () => {
       const record = await pb
         .collection("users")
-        .getFirstListItem(`username="${"jaredthejelly"}"`);
+        .getFirstListItem(`username="${user.username}"`);
       return record;
     };
     fetchByUser()

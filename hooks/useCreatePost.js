@@ -22,31 +22,41 @@ export default function useCreatePost() {
       slug: slugify(title),
     };
 
-    console.log(data)
+    console.log(data);
 
     try {
-      const foundRecord = await pb
+      await pb
         .collection("posts")
-        .getFirstListItem(`slug="${data.slug}"`);
-
-      if (foundRecord) {
-        toast.error("A post with that title already exists.", {
-          position: "top-right",
+        .getFirstListItem(`slug="${data.slug}"`)
+        .then((record) => {
+          if (record) {
+            toast.error("A post with that title already exists.", {
+              position: "top-right",
+            });
+            return;
+          }
         });
-        return;
-      }
     } catch {
-      const record = await pb.collection("posts").create(data);
-
-      if (record?.poster == user.id) {
-        router.prefetch(`/posts/${record.slug}`);
-        toast.success(`Your post was uploaded! 🎉`);
-        router.push(`/posts/${record.slug}`);
-      } else {
-        toast.error("There was an error creating your post.", {
-          position: "top-right",
+      const record = await pb
+        .collection("posts")
+        .create(data)
+        .then((record) => {
+          if (record?.poster == user.id) {
+            router.prefetch(`/posts/${record.slug}`);
+            return new Promise((resolve, _reject) => {
+              setTimeout(() => {
+                resolve();
+              }, 2000);
+            });
+          } else {
+            toast.error("There was an error creating your post.", {
+              position: "top-right",
+            });
+          }
+        })
+        .then(() => {
+          router.push(`/posts/${data.slug}`);
         });
-      }
     }
   }
   return useMutation((payload) => post(payload), {

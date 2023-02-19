@@ -39,7 +39,7 @@ const v1 = {
 const CreatePost = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-  const { mutate: post, isLoading, isError } = useCreatePost();
+  const { mutate: post, isLoading } = useCreatePost();
 
   const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -77,7 +77,7 @@ const CreatePost = () => {
       />
       <div className={styles.submit_section}>
         <button className={styles.submit} onClick={onSubmit}>
-          Post
+          {isLoading ? "Loading..." : "Post"}
         </button>
       </div>
     </div>

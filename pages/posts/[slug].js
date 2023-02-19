@@ -2,23 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import pb from "@/lib/pocketbase";
 
-const InitialState = {
-
-};
-
 const Post = () => {
   const [post, setPost] = useState({});
+  const [isLoading, setLoading] = useState(true);
+  const [isError, setError] = useState(null);
 
   const router = useRouter();
   const { slug: userParam } = router.query;
-  console.log(userParam)
+  console.log(userParam);
 
   useEffect(() => {
     if (userParam) {
       const fetchPost = async () => {
         const record = await pb
           .collection("posts")
-          .getFirstListItem(`slug="${userParam}"`, { expand: "poster"});
+          .getFirstListItem(`slug="${userParam}"`, { expand: "poster" });
         return record;
       };
       fetchPost()
@@ -26,10 +24,21 @@ const Post = () => {
           setPost(record);
         })
         .catch((e) => {
-          console.log("posts",e);
+          setError(true);
+
+          console.log("posts", e);
         });
+      setLoading(false);
     }
   }, [userParam]);
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+
+  if (isError) {
+    return <div>error</div>;
+  }
 
   return (
     <div>
